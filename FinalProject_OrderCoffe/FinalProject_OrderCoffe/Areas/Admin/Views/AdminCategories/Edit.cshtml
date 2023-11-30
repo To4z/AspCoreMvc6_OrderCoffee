@@ -1,0 +1,85 @@
+﻿@model FinalProject_OrderCoffe.Models.Category
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="card">
+    <div class="card-header bg-primary text-white">
+        <h1 class="m-3">Edit</h1>
+    </div>
+    <div class="card-body">
+        <h4 class="card-title">Edit Categories</h4>
+        <p class="card-description">
+            @ViewBag.Title
+        </p>
+        <form class="forms-sample" asp-action="Edit" asp-route-id="@Model.CardId" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="CardId" />
+            <input type="hidden" asp-for="ImageUrl" value="@Model.ImageUrl" />
+            <input type="hidden" asp-for="CreateDate" />
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Name">Categories Name</label>
+                        <input type="text" class="form-control" asp-for="Name" placeholder="Categories Name">
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="ImageUrl" class="control-label">Ảnh đại diện</label>
+                        <div style="display: flex; align-items: center;">
+                            <img id="thumbnail" src="~/images/categories/@Model.ImageUrl" alt="@Model.ImageUrl" style="max-height: 150px; max-width: 150px; object-fit: contain;" />
+                            <input type="file" id="fileInput" name="fThumb" style="display: none;" accept="image/*" />
+                        </div>
+                        <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <p class="mb-2">Active</p>
+                    <label class="toggle-switch toggle-switch-dark">
+                        <input type="checkbox" asp-for="IsAtive">
+                        <span class="toggle-slider round" asp-validation-for="IsAtive"></span>
+                    </label>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group text-right">
+                        <button type="submit" class="btn btn-primary">Edit</button>
+                        <a class="btn btn-secondary" asp-action="Index">Back to List</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        var thumbnail = document.getElementById("thumbnail");
+        var fileInput = document.getElementById("fileInput");
+
+        thumbnail.addEventListener("click", function () {
+            fileInput.click();
+        });
+
+        fileInput.addEventListener("change", function () {
+            if (fileInput.files.length > 0) {
+                var newImage = URL.createObjectURL(fileInput.files[0]);
+                thumbnail.src = newImage;
+            }
+        });
+    </script>
+}

@@ -1,0 +1,48 @@
+﻿@model List<Product>
+
+@if (Model != null)
+{
+    foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <p>@item.ProductName</p>
+                <p>@item.Category.Name</p>
+            </td>
+            <td>@item.Price.Value.ToString("#,##0") VNĐ</td>
+            <td>
+                <img src="~/images/products/@item.Thumb" alt="@item.ProductName" style="max-height: 50px; max-width: 50px;" />
+            </td>
+            <td>@item.UnitslnStock.Value</td>
+            <td>
+                <div class="col">
+                    <label class="toggle-switch @(item.UnitslnStock.Value > 0 ? "toggle-switch-success" : "toggle-switch-danger")">
+                        <input type="checkbox" disabled @(item.UnitslnStock.Value > 0 ? "checked" : "")>
+                        <span class="toggle-slider round"></span>
+                    </label>
+                </div>
+            </td>
+            <td>
+                <div class="d-flex align-items-center">
+                    <a type="button" class="btn btn-success btn-sm btn-icon-text mr-3"
+                       asp-action="Edit" asp-route-id="@item.ProductId">
+                        Edit
+                        <i class="typcn typcn-edit btn-icon-append"></i>
+                    </a>
+
+                    <a type="button" class="btn btn-primary btn-sm btn-icon-text mr-3"
+                       asp-action="Details" asp-route-id="@item.ProductId">
+                        Details
+                        <i class="typcn typcn-calendar-outline btn-icon-append"></i>
+                    </a>
+
+                    <a type="button" class="btn btn-danger btn-sm btn-icon-text"
+                       asp-action="Delete" asp-route-id="@item.ProductId">
+                        Delete
+                        <i class="typcn typcn-delete-outline btn-icon-append"></i>
+                    </a>
+                </div>
+            </td>
+        </tr>
+    }
+}

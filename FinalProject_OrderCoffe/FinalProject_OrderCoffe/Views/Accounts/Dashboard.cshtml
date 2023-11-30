@@ -1,0 +1,97 @@
+﻿@model FinalProject_OrderCoffe.Models.Customer
+
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<Order> Danhsachdonhang = ViewBag.DonHang;
+    FinalProject_OrderCoffe.ModelViews.ChangePasswordViewModel changePassword = new FinalProject_OrderCoffe.ModelViews.ChangePasswordViewModel();
+}
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+<div class="container mt-5">
+    <h2>Dashboard</h2>
+
+    <div class="w3-row">
+        <a href="javascript:void(0)" onclick="openCity(event, 'London');">
+            <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding">Thông tin cá nhân</div>
+        </a>
+        <a href="javascript:void(0)" onclick="openCity(event, 'Paris');">
+            <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding">Danh sách đơn hàng</div>
+        </a>
+        <a href="javascript:void(0)" onclick="openCity(event, 'Tokyo');">
+            <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding">Thay đổi mật khẩu</div>
+        </a>
+    </div>
+
+    <div id="London" class="w3-container city">
+        <div class="card mt-4">
+            <div class="card-header">
+                <h4>Thông tin cá nhân</h4>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-3">Họ và tên:</dt>
+                    <dd class="col-sm-9">@Model.Fullname</dd>
+
+                    <dt class="col-sm-3">Ngày sinh:</dt>
+                    <dd class="col-sm-9">@Model.Birthday</dd>
+
+                    <dt class="col-sm-3">Email:</dt>
+                    <dd class="col-sm-9">@Model.Email</dd>
+
+                    <dt class="col-sm-3">Số điện thoại:</dt>
+                    <dd class="col-sm-9">@Model.Phone</dd>
+
+                    <dt class="col-sm-3">Địa chỉ:</dt>
+                    <dd class="col-sm-9">@Model.Address</dd>
+
+                    <dt class="col-sm-3">Quận/Huyện:</dt>
+                    <dd class="col-sm-9">@Model.District</dd>
+
+                    <dt class="col-sm-3">Phường/Xã:</dt>
+                    <dd class="col-sm-9">@Model.Ward</dd>
+
+                    <dt class="col-sm-3">Ngày tạo:</dt>
+                    <dd class="col-sm-9">@Model.CreateDate</dd>
+                </dl>
+            </div>
+            <div class="mt-4">
+                <a href="/dang-xuat.html" class="btn btn-primary">Đăng xuất</a>
+                <a asp-action="Edit" asp-route-id="@Model?.CustomerId" class="btn btn-primary">Chỉnh sửa</a>
+                <a asp-action="Index" class="btn btn-secondary">Quay lại danh sách</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="Paris" class="w3-container city" style="display:none">
+        @await Html.PartialAsync("_DonHangPartialView", Danhsachdonhang);
+    </div>
+
+    <div id="Tokyo" class="w3-container city" style="display:none">
+        @await Html.PartialAsync("_ThayDoiMatKhauPartialView", changePassword);
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        function openCity(evt, cityName) {
+            var i, x, tablinks;
+            x = document.getElementsByClassName("city");
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablink");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("w3-border-red");
+            }
+            document.getElementById(cityName).style.display = "block";
+            evt.currentTarget.firstElementChild.classList.add("w3-border-red");
+        }
+
+        // Trigger click event on load to display the "Thông tin cá nhân" tab
+        window.onload = function () {
+            var personalInfoTab = document.querySelector('.tablink:first-child');
+            personalInfoTab.click();
+        };
+    </script>
+}

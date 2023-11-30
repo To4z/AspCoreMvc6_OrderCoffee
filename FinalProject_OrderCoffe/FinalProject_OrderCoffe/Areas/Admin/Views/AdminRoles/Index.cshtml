@@ -1,0 +1,83 @@
+﻿@model IEnumerable<FinalProject_OrderCoffe.Models.Role>
+
+@{
+    ViewData["Title"] = "Quản lý quyền truy cập";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<!-- Your HTML code with design improvements -->
+<h1>Role Management</h1>
+
+<div class="row mb-3">
+    <div class="col-md-2 text-right">
+        <select class="form-control" id="catId" name="catId" asp-items="ViewBag.DanhMuc">
+            <option selected>Chọn danh mục</option>
+            <option value="0">Chọn tất cả</option>
+        </select>
+    </div>
+    <div class="col-md-4">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Search...">
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="button">Search</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2 text-right">
+
+        <a asp-action="Create" class="btn btn-inverse-primary btn-fw">
+            <i class="typcn typcn-user-add-outline"></i>
+            Create
+        </a>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>Role Name</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @if (Model != null)
+            {
+                foreach (var item in Model)
+                {
+                    <tr class="table-row-hover">
+                        <td>@item.RoleId</td>
+                        <td>@item.RoleName</td>
+                        <td><span class="badge badge-danger">@item.Description</span></td>
+                        <td>
+                            <div class="d-flex align-items-center">
+
+                                <a type="button" class="btn btn-success btn-sm btn-icon-text mr-3"
+                                   asp-action="Edit" asp-route-id="@item.RoleId">
+                                    Edit
+                                    <i class="typcn typcn-edit btn-icon-append"></i>
+                                </a>
+
+                                <a type="button" class="btn btn-primary btn-sm btn-icon-text mr-3"
+                                   asp-action="Details" asp-route-id="@item.RoleId">
+                                    Details
+                                    <i class="typcn typcn-calendar-outline btn-icon-append"></i>
+                                </a>
+
+                                <a type="button" class="btn btn-danger btn-sm btn-icon-text"
+                                   asp-action="Delete" asp-route-id="@item.RoleId">
+                                    Delete
+                                    <i class="typcn typcn-delete-outline btn-icon-append"></i>
+                                </a>
+
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

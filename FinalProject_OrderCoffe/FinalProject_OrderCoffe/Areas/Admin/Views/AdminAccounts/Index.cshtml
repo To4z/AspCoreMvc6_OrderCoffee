@@ -1,0 +1,97 @@
+﻿@model IEnumerable<FinalProject_OrderCoffe.Models.Account>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>Index</h1>
+
+<div class="row mb-3">
+    <div class="col-md-2 text-right">
+        <select class="form-control" id="idrole" name ="idrole" asp-items="ViewBag.QuyenTruyCap">
+            <option value="0" disabled selected>Chọn quyền truy cập</option>
+        </select>
+    </div>
+    <div class="col-md-2 text-right">
+        <select class="form-control" id="idstatus" name="idstatus" asp-items="ViewBag.ListActive">
+            <option value="" disabled selected>Choose trạng thái</option>
+        </select>
+    </div>
+    <div class="col-md-4">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Search...">
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="button">Search</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2 text-right">
+
+        <a asp-action="Create" class="btn btn-inverse-primary btn-fw">
+            <i class="typcn typcn-user-add-outline"></i>
+            Create
+        </a>
+    </div>
+</div>
+
+
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Phone)</th>
+                <th>@Html.DisplayNameFor(model => model.Email)</th>
+                <th>@Html.DisplayNameFor(model => model.Active)</th>
+                <th>@Html.DisplayNameFor(model => model.Fullname)</th>
+                <th>@Html.DisplayNameFor(model => model.Lastlogin)</th>
+                <th>@Html.DisplayNameFor(model => model.Role)</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Phone)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                    <td>
+                        <div class="col">
+                            <label class="toggle-switch @((item.Active) ? "toggle-switch-success" : "toggle-switch-danger")">
+                                <input type="checkbox" disabled @(item.Active ? "checked" : "")>
+                                <span class="toggle-slider round"></span>
+                            </label>
+                        </div>
+                    </td>
+                    <td>@Html.DisplayFor(modelItem => item.Fullname)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Lastlogin)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Role.RoleName)</td>
+                    <td>
+                        
+                        <div class="d-flex align-items-center">
+                            <a type="button" class="btn btn-success btn-sm btn-icon-text mr-3"
+                               asp-action="Edit" asp-route-id="@item.Id">
+                                Edit
+                                <i class="typcn typcn-edit btn-icon-append"></i>
+                            </a>
+
+                            <a type="button" class="btn btn-primary btn-sm btn-icon-text mr-3"
+                               asp-action="Details" asp-route-id="@item.Id">
+                                Details
+                                <i class="typcn typcn-calendar-outline btn-icon-append"></i>
+                            </a>
+
+                            <a type="button" class="btn btn-danger btn-sm btn-icon-text"
+                               asp-action="Delete" asp-route-id="@item.Id">
+                                Delete
+                                <i class="typcn typcn-delete-outline btn-icon-append"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+</div>

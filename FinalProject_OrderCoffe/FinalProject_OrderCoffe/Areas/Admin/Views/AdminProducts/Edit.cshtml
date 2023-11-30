@@ -1,0 +1,186 @@
+﻿@model FinalProject_OrderCoffe.Models.Product
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">Edit Product</h4>
+        <p class="card-description">
+            @ViewBag.Title
+        </p>
+        <form class="forms-sample" asp-action="Edit" asp-route-id="@Model.ProductId" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ProductId" />
+            <input type="hidden" asp-for="Thumb" value="@Model.Thumb" />
+            <input type="hidden" asp-for="DateCreate" />
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="ProductName">Product Name</label>
+                        <input type="text" class="form-control" asp-for="ProductName" placeholder="Product Name">
+                        <span asp-validation-for="ProductName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Descriptioon">Description</label>
+                        <input type="text" class="form-control" asp-for="Descriptioon" placeholder="Description">
+                        <span asp-validation-for="Descriptioon" class="text-danger"></span>
+
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="ShortDdesc">Short Description</label>
+                        <input type="text" class="form-control" asp-for="ShortDdesc" placeholder="Short Description">
+                        <span asp-validation-for="ShortDdesc" class="text-danger"></span>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="Price">Product Price</label>
+                        <input class="form-control" asp-for="Price" placeholder="Product Price">
+                        <span asp-validation-for="Price" class="text-danger"></span>
+
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="Discount">Product Discount</label>
+                        <input class="form-control" asp-for="Discount" placeholder="Product Discount">
+                        <span asp-validation-for="Discount" class="text-danger"></span>
+
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="UnitslnStock">Product UnitslnStock</label>
+                        <input class="form-control" asp-for="UnitslnStock" placeholder="Product UnitslnStock">
+                        <span asp-validation-for="UnitslnStock" class="text-danger"></span>
+
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="Thumb" class="control-label">Ảnh đại diện</label>
+                        <div style="display: flex; align-items: center;">
+                            <img id="thumbnail" src="~/images/products/@Model.Thumb" alt="@Model.Thumb" style="max-height: 150px; max-width: 150px; object-fit: contain;" />
+                            <input type="file" id="fileInput" name="fThumb" style="display: none;" accept="image/*" />
+                        </div>
+
+                        <span asp-validation-for="Thumb" class="text-danger"></span>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="CategoryId" class="control-label">Danh mục</label>
+                        <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.DanhMuc">
+                            <option value="" disabled selected>Chọn danh mục</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <p class="mb-2">BestSellers</p>
+                            <label class="toggle-switch toggle-switch-dark">
+                                <input type="checkbox" asp-for="BestSellers">
+                                <span class="toggle-slider round" asp-validation-for="BestSellers"></span>
+                            </label>
+                        </div>
+                        <div class="col-md-3">
+                            <p class="mb-2">HomeFlag</p>
+                            <label class="toggle-switch toggle-switch-dark">
+                                <input type="checkbox" asp-for="HomeFlag">
+                                <span class="toggle-slider round" asp-validation-for="BestSellers"></span>
+                            </label>
+                        </div>
+                        <div class="col-md-3">
+                            <p class="mb-2">Active</p>
+                            <label class="toggle-switch toggle-switch-dark">
+                                <input type="checkbox" asp-for="Active">
+                                <span class="toggle-slider round" asp-validation-for="BestSellers"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="Title">Product Title</label>
+                        <input type="text" class="form-control" asp-for="Title" placeholder="Product Title">
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="MetaDesc">MetaDesc</label>
+                        <input type="text" class="form-control" asp-for="MetaDesc" placeholder="MetaDesc">
+                        <span asp-validation-for="MetaDesc" class="text-danger"></span>
+
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="MetaKey">MetaKey</label>
+                        <input type="text" class="form-control" asp-for="MetaKey" placeholder="MetaKey">
+                        <span asp-validation-for="MetaKey" class="text-danger"></span>
+
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="Tags">Tags</label>
+                        <input type="text" class="form-control" asp-for="Tags" placeholder="Tags">
+                        <span asp-validation-for="Tags" class="text-danger"></span>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group text-right">
+                        <button type="submit" class="btn btn-primary">Edit</button>
+                        <a class="btn btn-secondary" asp-action="Index">Back to List</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        var thumbnail = document.getElementById("thumbnail");
+        var fileInput = document.getElementById("fileInput");
+        var currentImage = thumbnail.src; // Lưu đường dẫn của ảnh hiện tại
+
+        thumbnail.addEventListener("click", function () {
+            fileInput.click();
+        });
+
+        fileInput.addEventListener("change", function () {
+            if (fileInput.files.length > 0) {
+                var newImage = URL.createObjectURL(fileInput.files[0]);
+                thumbnail.src = newImage;
+            } else {
+                // Nếu không có file mới được chọn, giữ nguyên ảnh hiện tại
+                thumbnail.src = currentImage;
+            }
+        });
+    </script>
+}
+
+

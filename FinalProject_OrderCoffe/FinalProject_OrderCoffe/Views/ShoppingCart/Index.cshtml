@@ -1,0 +1,151 @@
+﻿@model List<FinalProject_OrderCoffe.ModelViews.CartItem>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    
+}
+<!-- Shoping Cart Section Begin -->
+<section class="shoping-cart spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="shoping__cart__table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="shoping__product">Products</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if(Model != null && Model.Count > 0)
+                            {
+                                foreach(var item in Model)
+                                {
+                                    <tr>
+                                        <td class="shoping__cart__item">
+                                            <img style="width: 100px; height: 100px;" src="~/images/products/@item.Product.Thumb" alt="">
+                                            <h5>@item.Product.ProductName</h5>
+                                        </td>
+                                        <td class="shoping__cart__price">
+                                            @item.Product.Price.Value.ToString("#,##0") VNĐ
+                                        </td>
+                                        <td class="shoping__cart__quantity">
+                                            <div class="quantity">
+                                                <div class="pro-qty">
+                                                    <input class="cartItem" data-mahh="@item.Product.ProductId" data-dongia="@item.Product.Price" type="text" value="@item.amount">
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="shoping__cart__total">
+                                            @item.TotalMoney.ToString("#,##0") VNĐ
+                                        </td>
+                                        <td class="shoping__cart__item__close">
+                                            <input type="button" value="x" class="removecart btn btn-primary" data-mahh="@item.Product.ProductId"/>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="shoping__cart__btns">
+                    <a href="#" class="primary-btn cart-btn">CONTINUE SHOPPING</a>
+                    <a href="#" class="primary-btn cart-btn cart-btn-right">
+                        <span class="icon_loading"></span>
+                        Upadate Cart
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="shoping__continue">
+                    <div class="shoping__discount">
+                        <h5>Discount Codes</h5>
+                        <form action="#">
+                            <input type="text" placeholder="Enter your coupon code">
+                            <button type="submit" class="site-btn">APPLY COUPON</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="shoping__checkout">
+                    <h5>Cart Total</h5>
+                    <ul>
+                        <li>Subtotal <span>@Model.Sum(x=> x.TotalMoney).ToString("#,##0") VNĐ</span></li>
+                    </ul>
+                    
+                     <a href="/checkout.html" class="primary-btn">CHECKOUT</a>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Shoping Cart Section End -->
+
+@section Scripts{
+
+    <script>
+        $(function () {
+
+            $(".removecart").click(function () {
+                var producid = $(this).attr("data-mahh");
+               
+                $.ajax({
+                    url: "api/cart/remove",
+                    type: "POST",
+                    dataType: "JSON",
+                    data: {
+                        pproductId : producid,
+                    },
+                    success: function (result) {
+                        if (result.success) {
+                            window.location = 'cart.html';
+                        }
+                    },
+                    error: function (rs) {
+                        alert("Xoá Cart fails");
+                    }
+
+                })
+            })
+
+            $(".cartItem").click(function () {
+                var producid = $(this).attr("data-mahh");
+                var soluong = parseInt($(this).val());
+                $.ajax({
+                    url: "api/cart/update",
+                    type : "POST",
+                    dataType: "JSON",
+                    data: {
+                        pproductId : producid,
+                        amount : soluong
+                    },
+                    success: function (response) {
+                        if (response.result == 'Redirect') {
+                            window.location = 'cart.html';
+                        } else {
+                            location.reload();
+                        }
+                    },
+                    error: function (rs) {
+                        alert("Cập nhật Cart fails");
+                    }
+
+                })
+            })
+        })
+
+
+
+    </script>
+}
